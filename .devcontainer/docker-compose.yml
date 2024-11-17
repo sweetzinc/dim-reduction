@@ -1,0 +1,19 @@
+services:
+  cuda-tf-dimreduction:
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile 
+    image: cuda-tf:2.2.2-devel-ubuntu22.04
+    container_name: cuda-tf-dimreduction 
+    # volumes:
+    #   - C:\docker_share:/mounted_data:cached 
+    #   - ..:/workspace:cached
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    tty: true
+    stdin_open: true
