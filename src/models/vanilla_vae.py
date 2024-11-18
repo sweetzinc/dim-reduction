@@ -164,7 +164,9 @@ def create_vae(
 #%%
 if __name__ == "__main__":
     # Create and compile VAE
-    vae = create_vae(input_shape=(28, 28, 1), latent_dim=128, encoder_filters=[32, 64, 64])
+    vae = create_vae(input_shape=(28, 28, 1), 
+                     latent_dim=128, 
+                     encoder_filters=[32, 64, 64])
     dummy_input = tf.random.normal((1, 28, 28, 1))  # Replace with appropriate input dimensions
     vae(dummy_input)  # Run a forward pass to build the model
     vae.summary()
@@ -180,6 +182,7 @@ if __name__ == "__main__":
     print("x_recon.shape=", x_recon.shape)
 
 #%%
+if __name__ == "__main__":
     import numpy as np 
     epochs = 2
     batch_size = 32 

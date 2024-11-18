@@ -53,3 +53,15 @@ if __name__ == "__main__":
     print(train_data)
     print(val_data)
 # %%
+if __name__ == "__main__":
+    from matplotlib import pyplot as plt
+    """Visualize the first batch of the train dataset."""
+    for batch in train_data.take(1):
+        plt.figure(figsize=(10, 10))
+        for i in range(min(25, batch.shape[0])):
+            plt.subplot(5, 5, i + 1)
+            plt.imshow(batch[i, :, :, 0], cmap='gray')
+            plt.axis('off')
+        plt.show()
+
+# %%

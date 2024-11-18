@@ -1,6 +1,6 @@
 data:
   batch_size: 32
-  buffer_size: 10000
+  buffer_size: 1000
   validation_split: 0.2
 logging:
   checkpoint_dir: checkpoints
@@ -12,13 +12,12 @@ model:
   - 32
   - 64
   - 64
-  - 64
   input_shape:
-  - 64
-  - 64
-  - 3
+  - 28
+  - 28
+  - 1
   latent_dim: 128
 training:
   early_stopping_patience: 3
-  epochs: 5
+  epochs: 1
   learning_rate: 0.0001

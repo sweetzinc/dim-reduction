@@ -63,7 +63,7 @@ class VAETrainer:
                 histogram_freq=1
             ),
             tf.keras.callbacks.ModelCheckpoint(
-                filepath=str(self.checkpoint_dir / "weights-{epoch:02d}-{val_loss:.2f}.keras"),
+                filepath=str(self.checkpoint_dir / "weights-{epoch:02d}.keras"),
                 save_best_only=True,
                 monitor="val_loss",
                 mode="min",
@@ -104,17 +104,18 @@ class VAETrainer:
             val_data: Optional validation dataset
         """
         history = self.model.fit(
-            train_data,
+            train_data, 
             validation_data=val_data,
             epochs=self.config["training"]["epochs"],
             callbacks=self.callbacks
         )
-        
+        history_dict = {key: list(map(float, values)) for key, values in history.history.items()}
+
         # Save training history
         import json
         history_path = self.log_dir / "training_history.json"
         with open(history_path, "w") as f:
-            json.dump(history.history, f)
+            json.dump(history_dict, f)
             
         return history
     
@@ -127,19 +128,19 @@ if __name__ == "__main__":
             "save_freq": 1
         },
         "model": {
-            "input_shape": [64, 64, 3],
+            "input_shape": [28, 28, 1],
             "latent_dim": 128,
-            "encoder_filters": [32, 64, 64, 64],
+            "encoder_filters": [32, 64, 64],
             "decoder_filters": None
         },
         "training": {
             "learning_rate": 1e-4,
-            "epochs": 5,
+            "epochs": 1,
             "early_stopping_patience": 3
         },
         "data": {
             "batch_size": 32,
-            "buffer_size": 10000,
+            "buffer_size": 1000,
             "validation_split": 0.2
         }
     }
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     )
     
     # Save final model
-    final_model_path = trainer.checkpoint_dir / "final_model"
+    final_model_path = trainer.checkpoint_dir / "final_model.keras"
     trainer.model.save(final_model_path)
     print(f"Model saved to {final_model_path}")
 
